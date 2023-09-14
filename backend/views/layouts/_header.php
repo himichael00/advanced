@@ -5,7 +5,6 @@
 
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
-
 ?>
 
 <header>
@@ -13,12 +12,12 @@ use yii\bootstrap5\NavBar;
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
-        // 'options' => [
-        //     'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
-        // ],
+        'options' => [
+            'class' => 'shadow',
+        ]
     ]);
     $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
+        ['label' => 'Create', 'url' => ['/site/index']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
