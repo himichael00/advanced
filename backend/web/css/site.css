@@ -26,8 +26,8 @@ aside .nav-pills .nav-link:hover {
 
 aside .nav-pills .nav-link.active {
     background: rgba(0, 0, 0, 0.05);
-    color: #b90000;
-    border-left: 4px solid #b90000;
+    color: #1b44c0;
+    border-left: 4px solid #1b44c0;
 }
 
 .upload-icon {
