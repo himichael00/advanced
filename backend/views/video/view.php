@@ -33,7 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'description:ntext',
             'tags',
-            'status',
+            [
+                'attribute' => 'status',
+                'value' => $model->status ? 'published' : 'unlisted'
+            ],
             'has_thumbnail',
             'video_name',
             'created_at',

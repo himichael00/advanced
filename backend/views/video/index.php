@@ -30,7 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'description:ntext',
             'tags',
-            'status',
+            [
+                'attribute' => 'status',
+                'content' => function($model){
+                    return $model->getStatusLabel()[$model->status];
+                }
+            ],
             //'has_thumbnail',
             //'video_name',
             //'created_at',
