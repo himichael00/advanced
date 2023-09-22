@@ -10,7 +10,9 @@ use yii\bootstrap5\ActiveForm;
 
 <div class="video-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+            'options' => ['enctype' => 'multipart/form-data']
+        ]); ?>
 
     <div class="row">
         <div class="col-sm-9">
@@ -18,13 +20,24 @@ use yii\bootstrap5\ActiveForm;
 
         <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
+        <div class="form-group">
+        <label><?php echo $model->getAttributeLabel('thumbnail') ?></label>
+            <div class="input-group mb-3">
+                <input type="file" class="form-control" id="thumbnail" name="thumbnail">
+                <label class="input-group-text" for="thumbnail">Browse</label>
+            </div>
+        </div>
+        
+
         <?= $form->field($model, 'tags')->textInput(['maxlength' => true]) ?>
 
         </div>
         <div class="col-sm-2">
             
-            <div class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" src="<?php echo $model->getVideoLink() ?>"></iframe>
+            <div class="embed-responsive embed-responsive-16by9 mb-3">
+                <video width="400" class="embed-responsive-item" 
+                poster="<?php echo $model->getImageLink() ?>"
+                src="<?php echo $model->getVideoLink() ?>" controls></video>
             </div>
 
             <div class="mb-3">
@@ -41,7 +54,7 @@ use yii\bootstrap5\ActiveForm;
     </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-blue']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

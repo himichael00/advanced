@@ -35,9 +35,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'tags',
             [
                 'attribute' => 'status',
-                'value' => $model->status ? 'published' : 'unlisted'
+                'value' => function($model){
+                    return $model->getStatusLabel()[$model->status];
+                }
+                // 'value' => $model->status ? 'published' : 'unlisted'
             ],
-            'has_thumbnail',
+            [
+                'attribute' => 'has_thumbnail',
+                'value' => $model->has_thumbnail ? 'Yes' : 'No'
+                // 'value' => $model->status ? 'published' : 'unlisted'
+            ],
             'video_name',
             'created_at',
             'updated_at',

@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Video', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Video', ['create'], ['class' => 'btn btn-blue']) ?>
     </p>
 
 
@@ -27,19 +27,16 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'video_id',
-            'title',
-            'description:ntext',
-            'tags',
             [
                 'attribute' => 'status',
-                'content' => function($model){
+                'value' => function($model){
                     return $model->getStatusLabel()[$model->status];
                 }
             ],
             //'has_thumbnail',
             //'video_name',
-            //'created_at',
-            //'updated_at',
+            'created_at',
+            'updated_at',
             //'created_by',
             [
                 'class' => ActionColumn::className(),

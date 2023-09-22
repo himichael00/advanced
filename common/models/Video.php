@@ -27,10 +27,17 @@ class Video extends \yii\db\ActiveRecord
 {
     const STATUS_UNLISTED = 0;
     const STATUS_PUBLISHED = 1;
+
     /**
      * @var \yii\web\UploadedFile
      */
     public $video;
+
+    /**
+     * @var \yii\web\UploadedFile
+     */
+    public $thumbnail;
+
     /**
      * {@inheritdoc}
      */
@@ -84,6 +91,7 @@ class Video extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'created_by' => 'Created By',
+            'thumbnail' => 'Thumbnail'
         ];
     }
 
@@ -109,10 +117,16 @@ class Video extends \yii\db\ActiveRecord
     public function save($runValidation = true, $attributeNames = null)
     {
         $isInsert = $this->isNewRecord;
+        // cek video if it's uploaded
         if ($isInsert) {
+            // to generate uniqe string id
             $this->video_id = Yii::$app->security->generateRandomString(8);
             $this->title = $this->video->name;
             $this->video_name = $this->video->name;
+        }
+        // cek thumbnail if it's received
+        if ($this->thumbnail){
+            $this->has_thumbnail = 1;
         }
         $saved = parent::save($runValidation, $attributeNames);
         if (!$saved){
@@ -125,7 +139,19 @@ class Video extends \yii\db\ActiveRecord
             }
             $this->video->saveAs($videoPath);
         }
+        // if thumbnail is received we do save the thumbnail in storage
+        if ($this->thumbnail) {
+            $thumbnailPath = Yii::getAlias('@frontend/web/storage/thumbnails/'.$this->video_id.'.jpg');
+            if (!is_dir(dirname($thumbnailPath))){
+                FileHelper::createDirectory(dirname($thumbnailPath));
+            }
+            $this->thumbnail->saveAs($thumbnailPath);
+        }
         return true;
+    }
+
+    public function getImageLink(){
+        return Yii::$app->params['frontendUrl'].'storage/thumbnails/'.$this->video_id.'.jpg';
     }
 
     public function getVideoLink(){
