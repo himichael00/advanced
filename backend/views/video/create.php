@@ -15,7 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <div class="d-flex flex-column justify-content-center align-items-center">
-
         <br>
 
         <div class="upload-icon">
@@ -32,15 +31,19 @@ $this->params['breadcrumbs'][] = $this->title;
             your video will be private until you publish it
         </p>
 
-        <?php \yii\bootstrap5\ActiveForm::begin([
-            'options' => ['enctype' => 'multipart/form-data']
+        <?php $form = \yii\bootstrap5\ActiveForm::begin([
+            'options' => ['enctype' => 'multipart/form-data'],
         ]) ?>
 
-        <button class="btn btn-primary btn-file">
-            select file
-            <input type="file" id="videoFile" name="video">
-        </button>
+        <?php echo $form->errorSummary($model) ?>
 
+        <div class="btncenter">
+            <button class="btn btn-primary btn-file">
+                select file
+                <input type="file" id="videoFile" name="video">
+            </button>
+        </div>
+        
         <?php \yii\bootstrap5\ActiveForm::end() ?>
     </div>
 

@@ -68,3 +68,9 @@ aside .nav-pills .nav-link.active {
     color: #1b44c0;
     border: 2px solid #1b44c0;
   }
+
+.btncenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
