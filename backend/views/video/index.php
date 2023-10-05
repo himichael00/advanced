@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->getStatusLabel()[$model->status];
                 }
             ],
-            //'has_thumbnail',
+            'has_thumbnail',
             //'video_name',
             'created_at',
             'updated_at',

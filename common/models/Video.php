@@ -6,9 +6,6 @@ use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\FileHelper;
-use yii\imagine\Image;
-use yii\imagine\BaseImage;
-
 /**
  * This is the model class for table "{{%video}}".
  *
@@ -149,6 +146,7 @@ class Video extends \yii\db\ActiveRecord
             if (!is_dir(dirname($thumbnailPath))){
                 FileHelper::createDirectory(dirname($thumbnailPath));
             }
+            $this->thumbnail->saveAs($thumbnailPath);
         }
         return true;
     }
