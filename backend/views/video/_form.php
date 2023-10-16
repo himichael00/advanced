@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\bootstrap5\ActiveForm;
+use yii\helpers\Url;
+
+
 
 /** @var yii\web\View $this */
 /** @var common\models\Video $model */
@@ -13,7 +16,7 @@ use yii\bootstrap5\ActiveForm;
 <div class="video-form">
 
     <?php $form = ActiveForm::begin([
-            'options' => ['enctype' => 'multipart/form-data']
+            'options' => ['enctype' => 'multipart/form-data', "class" => "formUpload"]
         ]); ?>
 
     <div class="row">
@@ -64,6 +67,54 @@ use yii\bootstrap5\ActiveForm;
         <?= Html::submitButton('Save', ['class' => 'btn btn-blue']) ?>
     </div>
 
+
+    <br>
+
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+    </div>
     <?php ActiveForm::end(); ?>
 
+    <script>
+    var videoid = '<?= $model->video_id; ?>';
+    $(document).ready(function(){
+        var progressBar = $(".progress");
+        progressBar.hide();
+
+        $(".formUpload").on("submit", function(e){
+            e.preventDefault();
+            progressBar.show();
+            $.ajax({
+                xhr:function(){
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress",function(evt){
+                        console.log("evt", evt)
+                        var sucesspercentage = Math.floor(((evt.loaded/evt.total)*100));
+                        $(".progress-bar").width(sucesspercentage + "%");
+                        $(".progress-bar").html(sucesspercentage + "%");
+                    })
+                    return xhr;
+                },
+                type:"POST",
+                url: "<?= Url::to() ?>",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function() {
+                    $(".progress-bar").width("0%");
+                },
+                success: function(){
+                    // console.log(video_id);
+                    window.location.href = videoid;
+                },
+                error: function() { 
+                    alert("ajax error response type "+type);
+                }
+            })
+        })
+    })</script>
+
 </div>
+
+
