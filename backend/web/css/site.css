@@ -74,3 +74,45 @@ aside .nav-pills .nav-link.active {
     justify-content: center;
     align-items: center;
 }
+
+.updateButton {
+    color: white;
+    background-color: #1b44c0;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 8px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.updateButton:hover {
+    background-color: #ffffff;
+    color: #1b44c0;
+    border: 2px solid #1b44c0;
+}
+
+.deleteButton {
+    color: white;
+    background-color: #c01b1b;
+    padding: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 8px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.deleteButton:hover {
+    background-color: #ffffff;
+    color: #c01b1b;
+    border: 2px solid #c01b1b;
+}
+
+.modal-lg {
+    width: auto;
+}

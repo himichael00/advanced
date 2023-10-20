@@ -16,6 +16,7 @@ use yii\helpers\Url;
 <div class="video-form">
 
     <?php $form = ActiveForm::begin([
+            'id' => $model->formName(),
             'options' => ['enctype' => 'multipart/form-data', "class" => "formUpload"]
         ]); ?>
 
@@ -67,7 +68,6 @@ use yii\helpers\Url;
         <?= Html::submitButton('Save', ['class' => 'btn btn-blue']) ?>
     </div>
 
-
     <br>
 
     <div class="progress">
@@ -75,46 +75,71 @@ use yii\helpers\Url;
     </div>
     <?php ActiveForm::end(); ?>
 
+    
+
     <script>
     var videoid = '<?= $model->video_id; ?>';
     $(document).ready(function(){
-        var progressBar = $(".progress");
-        progressBar.hide();
+        // var progressBar = $(".progress");
+        // progressBar.hide();
 
-        $(".formUpload").on("submit", function(e){
-            e.preventDefault();
-            progressBar.show();
-            $.ajax({
-                xhr:function(){
-                    var xhr = new window.XMLHttpRequest();
-                    xhr.upload.addEventListener("progress",function(evt){
-                        console.log("evt", evt)
-                        var sucesspercentage = Math.floor(((evt.loaded/evt.total)*100));
-                        $(".progress-bar").width(sucesspercentage + "%");
-                        $(".progress-bar").html(sucesspercentage + "%");
-                    })
-                    return xhr;
-                },
-                type:"POST",
-                url: "<?= Url::to() ?>",
-                data: new FormData(this),
-                contentType: false,
-                cache: false,
-                processData: false,
-                beforeSend: function() {
-                    $(".progress-bar").width("0%");
-                },
-                success: function(){
-                    // console.log(video_id);
-                    window.location.href = videoid;
-                },
-                error: function() { 
-                    alert("ajax error response type "+type);
-                }
-            })
-        })
-    })</script>
+        // $(".formUpload").on("submit", function(e){
+        //     e.preventDefault();
+        //     progressBar.show();
+        //     $.ajax({
+        //         xhr:function(){
+        //             var xhr = new window.XMLHttpRequest();
+        //             xhr.upload.addEventListener("progress",function(evt){
+        //                 console.log("evt", evt)
+        //                 var sucesspercentage = Math.floor(((evt.loaded/evt.total)*100));
+        //                 $(".progress-bar").width(sucesspercentage + "%");
+        //                 $(".progress-bar").html(sucesspercentage + "%");
+        //             })
+        //             return xhr;
+        //         },
+        //         type:"POST",
+        //         url: "<?= Url::to() ?>",
+        //         data: new FormData(this),
+        //         contentType: false,
+        //         cache: false,
+        //         processData: false,
+        //         beforeSend: function() {
+        //             $(".progress-bar").width("0%");
+        //         },
+        //         success: function(){
+        //             // console.log(video_id);
+        //             window.location.href = videoid;
+        //         },
+        //         error: function() { 
+        //             alert("ajax error response type "+type);
+        //         }
+        //     })
+        // })
 
+
+        $('form#<?= $model->formName() ?>').on('beforeSubmit', function(e)
+            {
+                var $form = $(this);
+                $.post(
+                    $form.attr("action"),
+                    $form.serialize()
+                )
+                    .done(function(result) {
+                        if(result == 1)
+                        {
+                            // $($form).trigger("reset");
+                            $.pjax.reload({container: '#videoDetail'});
+                        }else
+                        {
+                            $("#message").html(result);
+                        }
+                    }).fail(function() {
+                        console.log("server error");
+                    });
+                    return false;
+            });
+    });
+</script>
 </div>
 
 

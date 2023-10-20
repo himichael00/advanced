@@ -45,6 +45,7 @@ return [
             'enablePrettyUrl' => true,
             'rules' => array(
                     'video/update/<video_id>' => 'video/update',
+                    'video/_form/<video_id>' => 'video/_form',
                     'video/view/<video_id>' => 'video/view',
                     'video/delete/<video_id>' => 'video/delete',
                     // '<controller:\w+>/<id:\d+>' => '<controller>/view',

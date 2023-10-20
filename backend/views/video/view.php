@@ -1,7 +1,10 @@
 <?php
 
+use yii\bootstrap5\Modal;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\Url;
+use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
 /** @var common\models\Video $model */
@@ -16,16 +19,31 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'video_id' => $model->video_id], ['class' => 'btn btn-primary']) ?>
+    <a class="updateButton" href="<?=Url::to(['video/update', 'video_id' => $model->video_id], ['class' => 'btn btn-primary']); ?>">Update</a>
         <?= Html::a('Delete', ['delete', 'video_id' => $model->video_id], [
-            'class' => 'btn btn-danger',
+            'class' => 'deleteButton',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',
             ],
         ]) ?>
+         
     </p>
 
+    <?php
+            Modal::begin([
+                'id' => 'modal',
+                'size' => 'modal-lg',
+            ]);
+
+            echo "<div id='modalContent'>";
+
+            echo "</div>";
+
+            Modal::end();
+        ?>
+
+    <?php Pjax::begin(['id'=>'videoDetail']); ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -51,5 +69,20 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_by',
         ],
     ]) ?>
+    <?php Pjax::end(); ?>
 
 </div>
+
+<script>
+
+$(function(){
+    // changed id to class
+    $('.updateButton').on('click', function (){
+        $.get($(this).attr('href'), function(data) {
+          $('#modal').modal('show').find('#modalContent').html(data)
+       });
+       return false;
+    });
+}); 
+
+</script>
